@@ -1,0 +1,34 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool find(TreeNode* root,vector<TreeNode*> & ans,TreeNode* key){
+        if(root==NULL) return false;
+        ans.push_back(root);
+        if(ans.back()==key) return true;
+        if(find(root->left,ans,key)||find(root->right,ans,key)) return true;
+        ans.pop_back();
+        return false;
+    }
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        vector<TreeNode*> f;
+        find(root,f,p);
+        vector<TreeNode*> s;
+        find(root,s,q);
+        TreeNode* ans;
+        int i = 0,j = 0;
+        while(i<f.size() && j<s.size()){
+            if(f[i]==s[j]) ans = f[i];
+            i++;
+            j++;
+        }
+        return ans;
+    }
+};
